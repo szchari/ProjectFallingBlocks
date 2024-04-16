@@ -4,9 +4,20 @@ import fr.eseo.e3.poo.projet.blox.modele.Coordonnees;
 import fr.eseo.e3.poo.projet.blox.modele.Couleur;
 import fr.eseo.e3.poo.projet.blox.modele.Element;
 import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
+import fr.eseo.e3.poo.projet.blox.modele.Puits;
 
 public abstract class Tetromino implements Piece {
     private Element[] elements;
+
+    private Puits puits;
+    @Override
+    public Puits getPuits() {
+        return puits;
+    }
+    @Override
+    public void setPuits(Puits puits) {
+        this.puits = puits;
+    }
 
     public Tetromino(Coordonnees coordonnees, Couleur couleur) {
         this.elements = new Element[4];
@@ -19,8 +30,10 @@ public abstract class Tetromino implements Piece {
 
     @Override
     public void setPosition(int abscisse, int ordonnee) {
-        elements[0].setCoordonnees(new Coordonnees(abscisse, ordonnee));  // set les news coordonnees à l'element 0
-        setElements(getElements()[0].getCoordonnees(), getElements()[0].getCouleur()); // set maintenant les autres elemetns autour de la place du nouvel element
+        // set les news coordonnees à l'element 0
+        elements[0].setCoordonnees(new Coordonnees(abscisse, ordonnee));
+        // set maintenant les autres elemetns autour de la place du nouvel element
+        setElements(getElements()[0].getCoordonnees(), getElements()[0].getCouleur());
     }
 
     protected abstract void setElements(Coordonnees coordonnees, Couleur couleur);
