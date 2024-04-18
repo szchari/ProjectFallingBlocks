@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import fr.eseo.e3.poo.projet.blox.modele.pieces.tetrominos.OTetromino;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PuitsTest {
     @Test

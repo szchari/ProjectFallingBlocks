@@ -12,7 +12,7 @@ public class ITetromino
     }
 
     protected void setElements(Coordonnees coordonnees, Couleur couleur) {
-        getElements()[0] = new Element(coordonnees, couleur);
+        getElements()[0] = new Element(coordonnees.getAbscisse(), coordonnees.getOrdonnee(), couleur);
         getElements()[1] = new Element(coordonnees.getAbscisse(), coordonnees.getOrdonnee() - 1, couleur);
         getElements()[2] = new Element(coordonnees.getAbscisse(), coordonnees.getOrdonnee() - 2, couleur);
         getElements()[3] = new Element(coordonnees.getAbscisse(), coordonnees.getOrdonnee() + 1, couleur);
