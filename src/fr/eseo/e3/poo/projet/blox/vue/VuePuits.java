@@ -9,22 +9,21 @@ import java.awt.Graphics2D;
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
 
 public class VuePuits extends JPanel {
-    public static final int TAILLE_PAR_DEFAUT = 40;
+    public static final int TAILLE_PAR_DEFAUT = 20;
     public int taille;
     private Puits puits;
 
     public VuePuits(Puits puits) {
         this.taille = TAILLE_PAR_DEFAUT;
         this.puits = puits;
-        setPreferredSize(new Dimension(puits.getLargeur() * TAILLE_PAR_DEFAUT, puits.getProfondeur() * TAILLE_PAR_DEFAUT));
-        setBackground(Color.WHITE);
+        updatePreferredSize();
     }
     public VuePuits(Puits puits, int taille) {
         this.taille = taille;
         this.puits = puits;
-        setPreferredSize(new Dimension(puits.getLargeur() * taille, puits.getProfondeur() * taille));
-        setBackground(Color.WHITE);
+        updatePreferredSize();
     }
+
     public Puits getPuits() {
         return this.puits;
     }
@@ -33,9 +32,18 @@ public class VuePuits extends JPanel {
     }
     public void setPuits(Puits puits) {
         this.puits = puits;
+        updatePreferredSize();
+        repaint();
     }
     public void setTaille(int taille) {
         this.taille = taille;
+        updatePreferredSize();
+        repaint();
+    }
+    private void updatePreferredSize() {
+        int largeurPanel = puits.getLargeur() * taille;
+        int profondeurPanel = puits.getProfondeur() * taille;
+        setPreferredSize(new Dimension(largeurPanel, profondeurPanel));
     }
 
     @Override
