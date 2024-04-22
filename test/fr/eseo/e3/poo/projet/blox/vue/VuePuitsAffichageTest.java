@@ -59,13 +59,13 @@ public class VuePuitsAffichageTest {
         SwingUtilities.invokeLater(() -> {
             Puits puits = new Puits();
 
-            VuePuits vuePuits = new VuePuits();
+            VuePuits vuePuits = new VuePuits(puits);
             vuePuits.setPuits(puits); // la ligne permet d'associer le puits à vuepuits
 
             Piece piece = UsineDePiece.genererTetromino(); // genere une piece
 
             VuePiece vuePiece = new VuePiece(piece, VuePuits.TAILLE_PAR_DEFAUT);
-            vuePuits.setVuePiece(vuePiece); // la ligne permet d'associer la piece à vuepuits
+            vuePuits.updateVuePiece(vuePiece); // la ligne permet d'associer la piece à vuepuits
 
             JFrame frame = new JFrame("Test Affichage VuePuits");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

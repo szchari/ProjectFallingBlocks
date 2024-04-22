@@ -5,26 +5,27 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
 
-public class VuePuits extends JPanel {
+public class VuePuits extends JPanel implements PropertyChangeListener {
     public static final int TAILLE_PAR_DEFAUT = 20;
     public int taille;
     private Puits puits;
     private VuePiece vuePiece;
 
-    public VuePuits() {
-        this.vuePiece = null;
-    }
     public VuePuits(Puits puits) {
         this.taille = TAILLE_PAR_DEFAUT;
         this.puits = puits;
+        //this.puits.addPropertyChangeListener(this);
         updatePreferredSize();
     }
     public VuePuits(Puits puits, int taille) {
         this.taille = taille;
         this.puits = puits;
+        //this.puits.addPropertyChangeListener(this);
         updatePreferredSize();
     }
 
@@ -52,7 +53,7 @@ public class VuePuits extends JPanel {
     public VuePiece getVuePiece() {
         return this.vuePiece;
     }
-    public void setVuePiece(VuePiece vuepiece) {
+    private void setVuePiece(VuePiece vuepiece) {
         this.vuePiece = vuepiece;
     }
 
@@ -89,5 +90,21 @@ public class VuePuits extends JPanel {
         }
         /*Puis nous liberons la memoire*/
         g2D.dispose();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(Puits.MODIFICATION_PIECE_ACTUELLE)) {
+            updateVuePiece();
+        }
+    }
+
+    private void updateVuePiece() {
+        setVuePiece(new VuePiece(puits.getPieceActuelle(), TAILLE_PAR_DEFAUT));
+    }
+
+    public void updateVuePiece(VuePiece newVuePiece) {
+        this.vuePiece = newVuePiece;
+        repaint();
     }
 }

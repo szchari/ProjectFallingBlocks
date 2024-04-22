@@ -2,13 +2,20 @@ package fr.eseo.e3.poo.projet.blox.modele;
 
 import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
 
+import java.beans.PropertyChangeSupport;
+import java.beans.PropertyChangeListener;
+
 public class Puits {
     public static final int LARGEUR_PAR_DEFAUT = 15;
     public static final int PROFONDEUR_PAR_DEFAUT = 25;
+    public static final String MODIFICATION_PIECE_ACTUELLE = "Modification de la pièce actuelle";
+    public static final String MODIFICATION_PIECE_SUIVANTE = "Modification de la pièce suivante";
     private int largeur;
     private int profondeur;
     private Piece pieceActuelle;
     private Piece pieceSuivante;
+    private PropertyChangeSupport pcs;
+
 
     public Puits() {
         this.largeur = LARGEUR_PAR_DEFAUT;
@@ -23,6 +30,12 @@ public class Puits {
         this.largeur = largeur;
         this.profondeur = profondeur;
     }
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        pcs.addPropertyChangeListener(listener);
+    }
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        pcs.removePropertyChangeListener(listener);
+    }
     public Piece getPieceActuelle() {
         return pieceActuelle;
     }
@@ -36,9 +49,13 @@ public class Puits {
         return this.largeur;
     }
     public void setPieceSuivante(Piece piece) {
+        /*Piece oldPieceSuivante = this.pieceSuivante;
+        this.pieceSuivante = piece;
+        pcs.firePropertyChange(MODIFICATION_PIECE_SUIVANTE, oldPieceSuivante, piece);*/
         if (this.pieceSuivante != null) {
             this.pieceActuelle = this.pieceSuivante;
             this.pieceActuelle.setPosition(this.largeur / 2, -4);
+            //pcs.firePropertyChange(MODIFICATION_PIECE_ACTUELLE, oldPieceSuivante, piece);
         }
         this.pieceSuivante = piece;
     }
