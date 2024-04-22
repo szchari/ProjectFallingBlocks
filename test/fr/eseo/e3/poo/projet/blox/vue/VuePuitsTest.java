@@ -1,13 +1,13 @@
 package fr.eseo.e3.poo.projet.blox.vue;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import org.junit.jupiter.api.Test;
 
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
 
-import java.awt.Dimension;
+import java.awt.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class VuePuitsTest {
     @Test

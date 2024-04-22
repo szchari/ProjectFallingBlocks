@@ -12,7 +12,11 @@ public class VuePuits extends JPanel {
     public static final int TAILLE_PAR_DEFAUT = 20;
     public int taille;
     private Puits puits;
+    private VuePiece vuePiece;
 
+    public VuePuits() {
+        this.vuePiece = null;
+    }
     public VuePuits(Puits puits) {
         this.taille = TAILLE_PAR_DEFAUT;
         this.puits = puits;
@@ -45,6 +49,12 @@ public class VuePuits extends JPanel {
         int profondeurPanel = puits.getProfondeur() * taille;
         setPreferredSize(new Dimension(largeurPanel, profondeurPanel));
     }
+    public VuePiece getVuePiece() {
+        return this.vuePiece;
+    }
+    public void setVuePiece(VuePiece vuepiece) {
+        this.vuePiece = vuepiece;
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -71,6 +81,11 @@ public class VuePuits extends JPanel {
                 int yPosition = y * carreauSize;
                 g2D.drawRect(xPosition, yPosition, carreauSize, carreauSize);
             }
+        }
+
+        /* Dessin de la piece seulement si associé : */
+        if (vuePiece != null) {
+            vuePiece.afficherPiece(g2D);
         }
         /*Puis nous liberons la memoire*/
         g2D.dispose();
