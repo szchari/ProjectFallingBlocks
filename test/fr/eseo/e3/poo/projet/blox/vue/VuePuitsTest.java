@@ -52,7 +52,6 @@ public class VuePuitsTest {
     }
     @Test
     public void testSetTaille() {
-        int taille1 = 18;
         int taille2 = 22;
         VuePuits vuePuits = new VuePuits(new Puits());
 

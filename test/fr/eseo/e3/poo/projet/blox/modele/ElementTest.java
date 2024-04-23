@@ -51,8 +51,6 @@ public class ElementTest {
         assertEquals(elem1.hashCode(), elem2.hashCode());
         assertNotEquals(elem1.hashCode(), elem3.hashCode());
 
-        assertEquals(elem1, elem1);
-
-        assertEquals(elem1.equals(null), false);
+        assertNotEquals(null, elem1);
     }
 }

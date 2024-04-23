@@ -51,16 +51,16 @@ public class Puits {
     public int getLargeur() {
         return this.largeur;
     }
-    public void setPieceSuivante(Piece piece) {
-        /*Piece oldPieceSuivante = this.pieceSuivante;
-        this.pieceSuivante = piece;
-        pcs.firePropertyChange(MODIFICATION_PIECE_SUIVANTE, oldPieceSuivante, piece);*/
-        if (this.pieceSuivante != null) {
+    public void setPieceSuivante(Piece pieceSuivanteLocal) {
+        Piece oldPieceActuelle = this.pieceActuelle;
+        if (this.getPieceSuivante() != null){
             this.pieceActuelle = this.pieceSuivante;
-            this.pieceActuelle.setPosition(this.largeur / 2, -4);
-            //pcs.firePropertyChange(MODIFICATION_PIECE_ACTUELLE, oldPieceSuivante, piece);
+            this.pieceActuelle.setPosition(this.getLargeur() / 2, -4);
+            pcs.firePropertyChange(MODIFICATION_PIECE_ACTUELLE, oldPieceActuelle, pieceSuivanteLocal);
         }
-        this.pieceSuivante = piece;
+        oldPieceActuelle = this.pieceSuivante;
+        this.pieceSuivante = pieceSuivanteLocal;
+        pcs.firePropertyChange(MODIFICATION_PIECE_SUIVANTE, oldPieceActuelle, pieceSuivanteLocal);
     }
     public void setProfondeur(int profondeur) {
         if (profondeur < 15 || profondeur > PROFONDEUR_PAR_DEFAUT) {

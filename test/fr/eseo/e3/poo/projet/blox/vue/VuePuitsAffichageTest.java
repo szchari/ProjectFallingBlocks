@@ -1,7 +1,6 @@
 package fr.eseo.e3.poo.projet.blox.vue;
 
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
-import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
 import fr.eseo.e3.poo.projet.blox.modele.pieces.UsineDePiece;
 
 import javax.swing.JFrame;
@@ -30,11 +29,17 @@ public class VuePuitsAffichageTest {
             VuePuits vuePuits = new VuePuits(puits);
 
             puits.addPropertyChangeListener(vuePuits);
+            UsineDePiece.setMode(UsineDePiece.ALEATOIRE_COMPLET);
+            Tetromino tetromino = UsineDePiece.genererTetromino();
+            Tetromino tetromino2 = UsineDePiece.genererTetromino();
+            //VuePiece vuePiece = new VuePiece(tetromino, VuePuits.TAILLE_PAR_DEFAUT);
+            puits.setPieceSuivante(tetromino);
+            puits.setPieceSuivante(tetromino2);
+
             frame.add(vuePuits);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
-
             // Vérification de la taille préférée
             Assertions.assertEquals(vuePuits.getPreferredSize(), frame.getContentPane().getSize());
         });
@@ -48,12 +53,18 @@ public class VuePuitsAffichageTest {
             VuePuits vuePuits = new VuePuits(puits, taille);
 
             puits.addPropertyChangeListener(vuePuits);
+            UsineDePiece.setMode(UsineDePiece.CYCLIC);
+            Tetromino tetromino = UsineDePiece.genererTetromino();
+            Tetromino tetromino2 = UsineDePiece.genererTetromino();
+            //VuePiece vuePiece = new VuePiece(tetromino, VuePuits.TAILLE_PAR_DEFAUT);
+            puits.setPieceSuivante(tetromino);
+            puits.setPieceSuivante(tetromino2);
+
             frame.add(vuePuits);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setVisible(true);
-
             // Vérification de la taille préférée
             Assertions.assertEquals(vuePuits.getPreferredSize(), frame.getContentPane().getSize());
         });
@@ -62,17 +73,20 @@ public class VuePuitsAffichageTest {
     @Test
     public void testAffichageVuePuits() {
         SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Test Affichage VuePuits");
+
             Puits puits = new Puits();
 
             VuePuits vuePuits = new VuePuits(puits);
-            puits.addPropertyChangeListener(vuePuits); // Enregistrement de VuePuits comme listener de Puits
 
-            Tetromino tetromino = UsineDePiece.genererTetromino(); // Génère une pièce
+            puits.addPropertyChangeListener(vuePuits);
+            UsineDePiece.setMode(UsineDePiece.ALEATOIRE_PIECE);
+            Tetromino tetromino = UsineDePiece.genererTetromino();
+            Tetromino tetromino2 = UsineDePiece.genererTetromino();
+            //VuePiece vuePiece = new VuePiece(tetromino, VuePuits.TAILLE_PAR_DEFAUT);
+            puits.setPieceSuivante(tetromino);
+            puits.setPieceSuivante(tetromino2);
 
-            VuePiece vuePiece = new VuePiece(tetromino, VuePuits.TAILLE_PAR_DEFAUT);
-            vuePuits.updateVuePiece(vuePiece); // Association de la pièce à VuePuits
-
-            JFrame frame = new JFrame("Test Affichage VuePuits");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.add(vuePuits);
             frame.pack();

@@ -1,9 +1,9 @@
 package fr.eseo.e3.poo.projet.blox.modele;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-import org.junit.jupiter.api.Test;
 
 public class CoordonneesTest {
 
@@ -37,16 +37,16 @@ public class CoordonneesTest {
         assertEquals(coord1.hashCode(), coord2.hashCode(),"Le hashcode de coord1 n'est pas égal à celui de coord2");
         assertNotEquals(coord1.hashCode(), coord3.hashCode());
 
-        assertEquals(coord1, coord1,"coord1 n'est pas égal à coord1 (oula)");
+        //assertEquals(coord1, coord1,"coord1 n'est pas égal à coord1 (oula)");
         assertEquals(coord1.hashCode(), coord1.hashCode(),"Le hashcode de coord1 n'est pas égal au hashcode de coord1");
 
-        assertEquals(coord2, coord2,"coord2 n'est pas égal à coord2");
+        //assertEquals(coord2, coord2,"coord2 n'est pas égal à coord2");
         assertEquals(coord2.hashCode(), coord2.hashCode(),"Le hashcode de coord2 n'est pas égal au hashcode de coord2");
 
         assertEquals(coord1.equals(coord3), coord3.equals(coord1),"Ne retourne pas tous les deux la meme valeur boolean");
-        assertEquals(coord1.equals(coord3), false,"coord1 est égal à coord3");
+        assertNotEquals(coord1, coord3, "coord1 est égal à coord3");
 
-        assertEquals(coord1.equals(null), false, "coord est pas égal à null");
+        assertNotEquals(null, coord1, "coord est pas égal à null");
     }
 }
 

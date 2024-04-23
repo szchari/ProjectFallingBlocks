@@ -9,6 +9,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
+import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
 
 public class VuePuits extends JPanel implements PropertyChangeListener {
     public static final int TAILLE_PAR_DEFAUT = 20;
@@ -103,11 +104,8 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(Puits.MODIFICATION_PIECE_ACTUELLE)) {
-            setVuePiece(new VuePiece(puits.getPieceActuelle(), TAILLE_PAR_DEFAUT));
+            VuePiece nouvelleVuePiece = new VuePiece((Piece) evt.getNewValue(), this.taille);
+            setVuePiece(nouvelleVuePiece);
         }
-    }
-
-    public void updateVuePiece(VuePiece newVuePiece) {
-        setVuePiece(newVuePiece);
     }
 }
