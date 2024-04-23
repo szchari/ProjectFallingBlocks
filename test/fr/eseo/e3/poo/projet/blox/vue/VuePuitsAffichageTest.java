@@ -7,6 +7,7 @@ import fr.eseo.e3.poo.projet.blox.modele.pieces.UsineDePiece;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import fr.eseo.e3.poo.projet.blox.modele.pieces.tetrominos.Tetromino;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +28,8 @@ public class VuePuitsAffichageTest {
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             Puits puits = new Puits();
             VuePuits vuePuits = new VuePuits(puits);
+
+            puits.addPropertyChangeListener(vuePuits);
             frame.add(vuePuits);
             frame.pack();
             frame.setLocationRelativeTo(null);
@@ -43,6 +46,8 @@ public class VuePuitsAffichageTest {
             Puits puits = new Puits();
             int taille = 20;
             VuePuits vuePuits = new VuePuits(puits, taille);
+
+            puits.addPropertyChangeListener(vuePuits);
             frame.add(vuePuits);
             frame.pack();
             frame.setLocationRelativeTo(null);
@@ -60,12 +65,12 @@ public class VuePuitsAffichageTest {
             Puits puits = new Puits();
 
             VuePuits vuePuits = new VuePuits(puits);
-            vuePuits.setPuits(puits); // la ligne permet d'associer le puits à vuepuits
+            puits.addPropertyChangeListener(vuePuits); // Enregistrement de VuePuits comme listener de Puits
 
-            Piece piece = UsineDePiece.genererTetromino(); // genere une piece
+            Tetromino tetromino = UsineDePiece.genererTetromino(); // Génère une pièce
 
-            VuePiece vuePiece = new VuePiece(piece, VuePuits.TAILLE_PAR_DEFAUT);
-            vuePuits.updateVuePiece(vuePiece); // la ligne permet d'associer la piece à vuepuits
+            VuePiece vuePiece = new VuePiece(tetromino, VuePuits.TAILLE_PAR_DEFAUT);
+            vuePuits.updateVuePiece(vuePiece); // Association de la pièce à VuePuits
 
             JFrame frame = new JFrame("Test Affichage VuePuits");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

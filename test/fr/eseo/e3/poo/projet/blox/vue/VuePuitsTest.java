@@ -11,6 +11,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class VuePuitsTest {
     @Test
+    public void testPuitsCreation() {
+        Puits puits = new Puits(10, 20);
+
+        assertNotNull(puits);
+
+        assertEquals(10, puits.getLargeur());
+        assertEquals(20, puits.getProfondeur());
+    }
+    @Test
     public void testPuitsConstruct() {
         Puits puits = new Puits();
         VuePuits vuePuits = new VuePuits(puits);
@@ -19,6 +28,7 @@ public class VuePuitsTest {
         assertEquals(puits, vuePuits.getPuits());
         assertEquals(VuePuits.TAILLE_PAR_DEFAUT, vuePuits.getTaille());
     }
+
     @Test
     public void testPuitsTailleConstruct() {
         Puits puits = new Puits();

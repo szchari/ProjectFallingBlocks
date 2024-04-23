@@ -20,6 +20,8 @@ public class Puits {
     public Puits() {
         this.largeur = LARGEUR_PAR_DEFAUT;
         this.profondeur = PROFONDEUR_PAR_DEFAUT;
+
+        this.pcs = new PropertyChangeSupport(this); // initialise pcs
     }
     public Puits(int largeur, int profondeur) {
         if (largeur < 5 || largeur > LARGEUR_PAR_DEFAUT || profondeur < 15 || profondeur > PROFONDEUR_PAR_DEFAUT) {
@@ -29,6 +31,7 @@ public class Puits {
         }
         this.largeur = largeur;
         this.profondeur = profondeur;
+        this.pcs = new PropertyChangeSupport(this);
     }
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         pcs.addPropertyChangeListener(listener);

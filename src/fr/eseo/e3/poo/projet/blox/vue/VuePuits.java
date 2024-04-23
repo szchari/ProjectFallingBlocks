@@ -17,16 +17,13 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
     private VuePiece vuePiece;
 
     public VuePuits(Puits puits) {
-        this.taille = TAILLE_PAR_DEFAUT;
-        this.puits = puits;
-        //this.puits.addPropertyChangeListener(this);
-        updatePreferredSize();
+        setPuits(puits);
+        setTaille(TAILLE_PAR_DEFAUT);
+
     }
     public VuePuits(Puits puits, int taille) {
-        this.taille = taille;
-        this.puits = puits;
-        //this.puits.addPropertyChangeListener(this);
-        updatePreferredSize();
+        setPuits(puits);
+        setTaille(taille);
     }
 
     public Puits getPuits() {
@@ -35,19 +32,29 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
     public int getTaille() {
         return this.taille;
     }
-    public void setPuits(Puits puits) {
+    /* public void setPuits(Puits puits) {
         this.puits = puits;
         updatePreferredSize();
         repaint();
+    }*/
+
+    public void setPuits(Puits nouveauPuits) {
+        if (this.puits != null) {
+            this.puits.removePropertyChangeListener(this);
+        }
+
+        this.puits = nouveauPuits;
+        this.puits.addPropertyChangeListener(this);
+
+        updatePreferredSize();
     }
     public void setTaille(int taille) {
         this.taille = taille;
         updatePreferredSize();
-        repaint();
     }
     private void updatePreferredSize() {
-        int largeurPanel = puits.getLargeur() * taille;
-        int profondeurPanel = puits.getProfondeur() * taille;
+        int largeurPanel = this.puits.getLargeur() * taille;
+        int profondeurPanel = this.puits.getProfondeur() * taille;
         setPreferredSize(new Dimension(largeurPanel, profondeurPanel));
     }
     public VuePiece getVuePiece() {
@@ -55,6 +62,7 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
     }
     private void setVuePiece(VuePiece vuepiece) {
         this.vuePiece = vuepiece;
+        repaint();
     }
 
     @Override
@@ -95,16 +103,11 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(Puits.MODIFICATION_PIECE_ACTUELLE)) {
-            updateVuePiece();
+            setVuePiece(new VuePiece(puits.getPieceActuelle(), TAILLE_PAR_DEFAUT));
         }
     }
 
-    private void updateVuePiece() {
-        setVuePiece(new VuePiece(puits.getPieceActuelle(), TAILLE_PAR_DEFAUT));
-    }
-
     public void updateVuePiece(VuePiece newVuePiece) {
-        this.vuePiece = newVuePiece;
-        repaint();
+        setVuePiece(newVuePiece);
     }
 }
