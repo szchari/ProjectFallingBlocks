@@ -1,9 +1,11 @@
 package fr.eseo.e3.poo.projet.blox.modele;
 
+import fr.eseo.e3.poo.projet.blox.modele.pieces.tetrominos.OTetromino;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ElementTest {
 
@@ -52,5 +54,12 @@ public class ElementTest {
         assertNotEquals(elem1.hashCode(), elem3.hashCode());
 
         assertNotEquals(null, elem1);
+    }
+
+    @Test
+    public void testDeplacerDe_ValidMovement() {
+        Element element = new Element(new Coordonnees(0, 0));
+        element.deplacerDe(1, 1);
+        assertEquals(new Coordonnees(1, 1), element.getCoordonnees());
     }
 }

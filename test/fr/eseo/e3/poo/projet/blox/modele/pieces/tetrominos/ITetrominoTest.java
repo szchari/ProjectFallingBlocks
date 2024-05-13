@@ -1,6 +1,7 @@
 package fr.eseo.e3.poo.projet.blox.modele.pieces.tetrominos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import fr.eseo.e3.poo.projet.blox.modele.Element;
 import fr.eseo.e3.poo.projet.blox.modele.Coordonnees;
@@ -39,5 +40,24 @@ public class ITetrominoTest {
         ITetromino itetromino = new ITetromino(coordonnees, couleur);
 
         assertEquals("ITetromino :\n\t(5, 5) - VIOLET\n\t(5, 4) - VIOLET\n\t(5, 3) - VIOLET\n\t(5, 6) - VIOLET\n", itetromino.toString());
+    }
+
+    @Test
+    public void testDeplacerDe_ValidMovement() {
+        ITetromino iTetromino = new ITetromino(new Coordonnees(0, 0), Couleur.ROUGE);
+        iTetromino.deplacerDe(0, 1);
+        Element[] elements = iTetromino.getElements();
+        assertEquals(new Coordonnees(0, 1), elements[0].getCoordonnees());
+        assertEquals(new Coordonnees(0, 0), elements[1].getCoordonnees());
+        assertEquals(new Coordonnees(0, -1), elements[2].getCoordonnees());
+        assertEquals(new Coordonnees(0, 2), elements[3].getCoordonnees());
+    }
+
+    @Test
+    public void testDeplacerDe_InvalidMovement() {
+        ITetromino iTetromino = new ITetromino(new Coordonnees(0, 0), Couleur.ROUGE);
+        assertThrows(IllegalArgumentException.class, () -> {
+            iTetromino.deplacerDe(2, 1);
+        });
     }
 }

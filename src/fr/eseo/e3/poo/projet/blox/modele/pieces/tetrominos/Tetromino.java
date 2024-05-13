@@ -46,4 +46,14 @@ public abstract class Tetromino implements Piece {
         }
         return result.toString();
     }
+
+    @Override
+    public void deplacerDe(int deltaX, int deltaY) {
+        if (Math.abs(deltaX) > 1 && deltaX != 0 || deltaY != 1) {
+            throw new IllegalArgumentException("Déplacement invalide : deltaX doit être -1, 0 ou 1 et deltaY doit être 1.");
+        }
+
+        getElements()[0].deplacerDe(deltaX, deltaY);
+        setElements(getElements()[0].getCoordonnees(), getElements()[0].getCouleur());
+    }
 }

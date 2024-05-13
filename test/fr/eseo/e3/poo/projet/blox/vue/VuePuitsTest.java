@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

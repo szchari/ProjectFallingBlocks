@@ -1,11 +1,11 @@
 package fr.eseo.e3.poo.projet.blox.modele;
 
+import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
+
 import java.util.Objects;
 
 public class Element {
-
     private Coordonnees coordonnees;
-
     private Couleur couleur;
 
     public Element(Coordonnees coordonnees) {
@@ -62,5 +62,11 @@ public class Element {
     @Override
     public int hashCode() {
         return Objects.hash(coordonnees, couleur);
+    }
+
+    public void deplacerDe(int deltaX, int deltaY) {
+        int nouvelleAbscisse = this.coordonnees.getAbscisse() + deltaX;
+        int nouvelleOrdonnee = this.coordonnees.getOrdonnee() + deltaY;
+        this.coordonnees = new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee);
     }
 }
