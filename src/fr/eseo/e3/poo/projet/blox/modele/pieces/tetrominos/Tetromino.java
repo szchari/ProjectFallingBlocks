@@ -6,6 +6,10 @@ import fr.eseo.e3.poo.projet.blox.modele.Element;
 import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class Tetromino implements Piece {
     private Element[] elements;
 
@@ -55,5 +59,45 @@ public abstract class Tetromino implements Piece {
 
         getElements()[0].deplacerDe(deltaX, deltaY);
         setElements(getElements()[0].getCoordonnees(), getElements()[0].getCouleur());
+    }
+
+    @Override
+    public void tourner(boolean sensHoraire) {
+        // Obtenez la coordonnée de référence de la pièce
+        Coordonnees coordRef = getElements()[0].getCoordonnees();
+
+        // Étape 1: Sauvegarder la position actuelle de l'élément de référence
+        int ancienneAbscisse = coordRef.getAbscisse();
+        int ancienneOrdonnee = coordRef.getOrdonnee();
+
+        // Étape 2: Translater les éléments de la pièce pour placer l'élément de référence à l'origine (0, 0)
+        for (Element element : getElements()) {
+            int nouvelleAbscisse = element.getCoordonnees().getAbscisse() - ancienneAbscisse;
+            int nouvelleOrdonnee = element.getCoordonnees().getOrdonnee() - ancienneOrdonnee;
+            element.setCoordonnees(new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee));
+        }
+
+        // Récupérer une liste d'éléments à partir de la pièce
+        List<Element> elementsList = new ArrayList<>(Arrays.asList(getElements()));
+
+        // Étape 3: Effectuer la rotation des éléments (sauf la référence) autour de l'origine du repère
+        for (int i = 1; i < elementsList.size(); i++) {
+            Element element = elementsList.get(i);
+            int ancienneAbscisseElement = element.getCoordonnees().getAbscisse();
+            int ancienneOrdonneeElement = element.getCoordonnees().getOrdonnee();
+
+            // Appliquer la rotation
+            int nouvelleAbscisse = sensHoraire ? -ancienneOrdonneeElement : ancienneOrdonneeElement;
+            int nouvelleOrdonnee = sensHoraire ? ancienneAbscisseElement : -ancienneAbscisseElement;
+
+            element.setCoordonnees(new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee));
+        }
+
+        // Étape 4: Translater les éléments de la pièce pour replacer l'élément de référence à sa place initiale
+        for (Element element : getElements()) {
+            int nouvelleAbscisse = element.getCoordonnees().getAbscisse() + ancienneAbscisse;
+            int nouvelleOrdonnee = element.getCoordonnees().getOrdonnee() + ancienneOrdonnee;
+            element.setCoordonnees(new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee));
+        }
     }
 }

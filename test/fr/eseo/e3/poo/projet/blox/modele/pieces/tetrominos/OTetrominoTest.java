@@ -41,7 +41,7 @@ public class OTetrominoTest {
     }
 
     @Test
-    public void testDeplacerDe_ValidMovement() {
+    public void testDeplacerDeValidMovement() {
         OTetromino oTetromino = new OTetromino(new Coordonnees(0, 0), Couleur.ROUGE);
         oTetromino.deplacerDe(0, 1);
         Element[] elements = oTetromino.getElements();
@@ -52,7 +52,7 @@ public class OTetrominoTest {
     }
 
     @Test
-    public void testDeplacerDe_InvalidMovement() {
+    public void testDeplacerDeInvalidMovement() {
         OTetromino oTetromino = new OTetromino(new Coordonnees(0, 0), Couleur.ROUGE);
         assertThrows(IllegalArgumentException.class, () -> {
             oTetromino.deplacerDe(2, 1);

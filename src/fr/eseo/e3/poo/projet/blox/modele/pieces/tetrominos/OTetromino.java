@@ -11,6 +11,11 @@ public class OTetromino
         super(coordonnees, couleur);
     }
 
+    @Override
+    public void tourner(boolean sensHoraire) {
+        // les OTetrominos ne peuvent pas être tournés
+    }
+
     protected void setElements(Coordonnees coordonnees, Couleur couleur) {
         getElements()[0] = new Element(coordonnees.getAbscisse(), coordonnees.getOrdonnee(), couleur);
         getElements()[1] = new Element(coordonnees.getAbscisse() + 1, coordonnees.getOrdonnee(), couleur);
