@@ -52,15 +52,13 @@ public class Puits {
         return this.largeur;
     }
     public void setPieceSuivante(Piece pieceSuivanteLocal) {
-        Piece oldPieceActuelle = this.pieceActuelle;
         if (this.getPieceSuivante() != null){
+            pcs.firePropertyChange(MODIFICATION_PIECE_ACTUELLE, this.pieceActuelle, this.pieceSuivante);
             this.pieceActuelle = this.pieceSuivante;
             this.pieceActuelle.setPosition(this.getLargeur() / 2, -4);
-            pcs.firePropertyChange(MODIFICATION_PIECE_ACTUELLE, oldPieceActuelle, pieceSuivanteLocal);
         }
-        oldPieceActuelle = this.pieceSuivante;
+        pcs.firePropertyChange(MODIFICATION_PIECE_SUIVANTE, this.pieceSuivante, pieceSuivanteLocal);
         this.pieceSuivante = pieceSuivanteLocal;
-        pcs.firePropertyChange(MODIFICATION_PIECE_SUIVANTE, oldPieceActuelle, pieceSuivanteLocal);
     }
     public void setProfondeur(int profondeur) {
         if (profondeur < 15 || profondeur > PROFONDEUR_PAR_DEFAUT) {

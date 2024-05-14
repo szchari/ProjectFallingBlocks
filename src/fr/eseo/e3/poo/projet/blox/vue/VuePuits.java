@@ -10,21 +10,27 @@ import java.beans.PropertyChangeEvent;
 
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
 import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
+import fr.eseo.e3.poo.projet.blox.controleur.PieceDeplacement;
 
 public class VuePuits extends JPanel implements PropertyChangeListener {
     public static final int TAILLE_PAR_DEFAUT = 20;
     public int taille;
     private Puits puits;
     private VuePiece vuePiece;
+    private PieceDeplacement pieceDeplacement;
+
 
     public VuePuits(Puits puits) {
         setPuits(puits);
         setTaille(TAILLE_PAR_DEFAUT);
-
+        this.pieceDeplacement = new PieceDeplacement(this);
+        this.addMouseMotionListener(pieceDeplacement);
     }
     public VuePuits(Puits puits, int taille) {
         setPuits(puits);
         setTaille(taille);
+        this.pieceDeplacement = new PieceDeplacement(this);
+        this.addMouseMotionListener(pieceDeplacement);
     }
 
     public Puits getPuits() {
@@ -33,11 +39,6 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
     public int getTaille() {
         return this.taille;
     }
-    /* public void setPuits(Puits puits) {
-        this.puits = puits;
-        updatePreferredSize();
-        repaint();
-    }*/
 
     public void setPuits(Puits nouveauPuits) {
         if (this.puits != null) {
@@ -46,6 +47,7 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
 
         this.puits = nouveauPuits;
         this.puits.addPropertyChangeListener(this);
+        if(this.pieceDeplacement != null) this.pieceDeplacement.setPuits(puits);
 
         updatePreferredSize();
     }

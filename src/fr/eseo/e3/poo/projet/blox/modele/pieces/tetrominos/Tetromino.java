@@ -53,12 +53,15 @@ public abstract class Tetromino implements Piece {
 
     @Override
     public void deplacerDe(int deltaX, int deltaY) {
-        if (Math.abs(deltaX) > 1 && deltaX != 0 || deltaY != 1) {
+        if (Math.abs(deltaX) > 1 || deltaY < 0 || deltaY > 1) {
             throw new IllegalArgumentException("Déplacement invalide : deltaX doit être -1, 0 ou 1 et deltaY doit être 1.");
         }
 
-        getElements()[0].deplacerDe(deltaX, deltaY);
-        setElements(getElements()[0].getCoordonnees(), getElements()[0].getCouleur());
+        System.out.println("Je me dépalce de "+deltaX);
+
+        for(Element element : this.elements) {
+            element.deplacerDe(deltaX, deltaY);
+        }
     }
 
     @Override
@@ -86,7 +89,7 @@ public abstract class Tetromino implements Piece {
             int ancienneAbscisseElement = element.getCoordonnees().getAbscisse();
             int ancienneOrdonneeElement = element.getCoordonnees().getOrdonnee();
 
-            // Appliquer la rotation
+            // Appliquer la rotation vrai/faux ? si vrai : si faux
             int nouvelleAbscisse = sensHoraire ? -ancienneOrdonneeElement : ancienneOrdonneeElement;
             int nouvelleOrdonnee = sensHoraire ? ancienneAbscisseElement : -ancienneAbscisseElement;
 
