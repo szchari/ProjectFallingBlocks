@@ -10,15 +10,15 @@ import org.junit.jupiter.api.Test;
 import javax.swing.SwingUtilities;
 import javax.swing.JFrame;
 
-public class PieceDeplacementTest {
-    private void testPieceDeplacement() {
+public class PieceRotationTest {
+    private void testPieceRotation() {
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Test Déplacement Piece");
+            JFrame frame = new JFrame("Test Rotation Piece");
             Puits puits = new Puits();
             int taille = 20;
             VuePuits vuePuits = new VuePuits(puits, taille);
 
-            UsineDePiece.setMode(UsineDePiece.ALEATOIRE_COMPLET);
+            UsineDePiece.setMode(UsineDePiece.ALEATOIRE_PIECE);
             Tetromino tetromino = UsineDePiece.genererTetromino();
             Tetromino tetromino2 = UsineDePiece.genererTetromino();
             puits.setPieceSuivante(tetromino);
@@ -39,10 +39,10 @@ public class PieceDeplacementTest {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new PieceDeplacementTest().runTests());
+        SwingUtilities.invokeLater(() -> new PieceRotationTest().runTests());
     }
 
     public void runTests() {
-        testPieceDeplacement();
+        testPieceRotation();
     }
 }

@@ -4,10 +4,11 @@ import fr.eseo.e3.poo.projet.blox.modele.Puits;
 import fr.eseo.e3.poo.projet.blox.vue.VuePuits;
 
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseWheelEvent;
 
 public class PieceDeplacement
-        implements MouseMotionListener {
+        extends MouseAdapter {
     private Puits puits;
     private VuePuits vuePuits;
     private int derniereColonne = -1;
@@ -25,29 +26,41 @@ public class PieceDeplacement
             int xSouris = event.getX();
             int colonneSouris = xSouris / tailleCellule;
 
-            if(this.debutDeplacement) {
-                this.debutDeplacement = false; // Marque la fin du mouvement initial de la souris
-            }else if(this.derniereColonne != colonneSouris) {
+            if (this.debutDeplacement) {
+                this.debutDeplacement = false;
+            } else if (this.derniereColonne != colonneSouris) {
                 try {
                     int dX = colonneSouris > derniereColonne ? 1 : -1;
-                    System.out.println("ICI");
                     puits.getPieceActuelle().deplacerDe(dX, 0);
                 } catch (IllegalArgumentException ignored) {
-                    System.out.println(ignored);
                     // ignorer les déplacements invalides
                 }
             }
 
             this.derniereColonne = colonneSouris;
             this.vuePuits.repaint();
+        }
+    }
 
-            System.out.println(this.puits.getPieceActuelle().toString());
+    @Override
+    public void mouseEntered(MouseEvent event) {
+        this.derniereColonne = -1; // Réinitialiser la dernière colonne
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent event) {
+        if (vuePuits.getPuits().getPieceActuelle() != null) {
+            int notches = event.getWheelRotation();
+            if (notches > 0) {
+                puits.getPieceActuelle().deplacerDe(0, 1);
+                vuePuits.repaint();
+            }
         }
     }
 
     @Override
     public void mouseDragged(MouseEvent event) {
-        // non used pour l'instant
+        // non utilisé pour l'instant
     }
 
     public void setPuits(Puits puits) {
