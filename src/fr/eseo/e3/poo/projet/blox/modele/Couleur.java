@@ -3,8 +3,7 @@ package fr.eseo.e3.poo.projet.blox.modele;
 import java.awt.Color;
 
 public enum Couleur {
-    ROUGE(Color.RED),
-    ORANGE(Color.ORANGE),
+    ROUGE(Color.RED), ORANGE(Color.ORANGE),
     BLEU(Color.BLUE),
     VERT(Color.GREEN),
     JAUNE(Color.YELLOW),
