@@ -7,6 +7,8 @@ import fr.eseo.e3.poo.projet.blox.modele.pieces.tetrominos.OTetromino;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PuitsTest {
     @Test
@@ -72,5 +74,13 @@ public class PuitsTest {
         String actual = puits.toString();
 
         assertEquals(expected, actual);
+    }
+
+    //test de tas
+    @Test
+    public void testTasInitialise() {
+        Puits puits = new Puits();
+        assertNotNull(puits.getTas(), "Le tas ne doit pas être null.");
+        assertTrue(puits.getTas().getElements().isEmpty(), "Le tas doit être initialisé vide.");
     }
 }

@@ -5,6 +5,8 @@ import fr.eseo.e3.poo.projet.blox.modele.Couleur;
 import fr.eseo.e3.poo.projet.blox.modele.Element;
 import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
+import fr.eseo.e3.poo.projet.blox.modele.BloxException;
+import fr.eseo.e3.poo.projet.blox.modele.Tas;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,8 +14,8 @@ import java.util.List;
 
 public abstract class Tetromino implements Piece {
     private Element[] elements;
-
     private Puits puits;
+
     @Override
     public Puits getPuits() {
         return puits;
@@ -51,13 +53,45 @@ public abstract class Tetromino implements Piece {
         return result.toString();
     }
 
+    private void verifDeplacement(int deltaX2, int deltaY2) {
+        if (Math.abs(deltaX2) > 1 || deltaY2 < 0 || deltaY2 > 1) {
+            throw new IllegalArgumentException("Déplacement invalide : deltaX doit être -1, 0 ou 1 et deltaY doit être 1.");
+        }
+    }
+
+    /*@Override
+    public void deplacerDe(int deltaX, int deltaY) {
+        try {
+            // Vérifier si le déplacement est valide
+            verifDeplacement(deltaX, deltaY);
+
+            for (Element element : elements) {
+                int nouvelleAbscisse = element.getCoordonnees().getAbscisse() + deltaX;
+                int nouvelleOrdonnee = element.getCoordonnees().getOrdonnee() + deltaY;
+
+                if (nouvelleAbscisse < 0 || nouvelleAbscisse >= puits.getLargeur() || nouvelleOrdonnee >= puits.getProfondeur()) {
+                    throw new BloxException("Déplacement invalide : sortie du puits détectée.", BloxException.BLOX_SORTIE_PUITS);
+                }
+                if (puits.getTas().elementExists(nouvelleAbscisse, nouvelleOrdonnee)) {
+                    throw new BloxException("Déplacement invalide : collision détectée.", BloxException.BLOX_COLLISION);
+                }
+
+                element.deplacerDe(deltaX, deltaY);
+            }
+        } catch (BloxException e) {
+            // Gérer l'exception BloxException ici
+            // Afficher un message d'erreur ou effectuer d'autres actions nécessaires
+            System.err.println("Erreur BloxException : " + e.getMessage());
+        }
+    }*/
+
     @Override
     public void deplacerDe(int deltaX, int deltaY) {
         if (Math.abs(deltaX) > 1 || deltaY < 0 || deltaY > 1) {
             throw new IllegalArgumentException("Déplacement invalide : deltaX doit être -1, 0 ou 1 et deltaY doit être 1.");
         }
-
-        System.out.println("Je me dépalce de "+deltaX);
+        // debugerino
+        System.out.println("Je me déplace de "+deltaX);
 
         for(Element element : this.elements) {
             element.deplacerDe(deltaX, deltaY);
@@ -66,6 +100,7 @@ public abstract class Tetromino implements Piece {
 
     @Override
     public void tourner(boolean sensHoraire) {
+
         // Obtenez la coordonnée de référence de la pièce
         Coordonnees coordRef = getElements()[0].getCoordonnees();
 

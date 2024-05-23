@@ -15,14 +15,15 @@ public class Puits {
     private Piece pieceActuelle;
     private Piece pieceSuivante;
     private PropertyChangeSupport pcs;
-
+    private Tas tas;
 
     public Puits() {
         this.largeur = LARGEUR_PAR_DEFAUT;
         this.profondeur = PROFONDEUR_PAR_DEFAUT;
-
+        this.tas = new Tas(this);
         this.pcs = new PropertyChangeSupport(this); // initialise pcs
     }
+
     public Puits(int largeur, int profondeur) {
         if (largeur < 5 || largeur > LARGEUR_PAR_DEFAUT || profondeur < 15 || profondeur > PROFONDEUR_PAR_DEFAUT) {
             throw new IllegalArgumentException("La valeur de la largeur doit être comprise entre "
@@ -31,8 +32,21 @@ public class Puits {
         }
         this.largeur = largeur;
         this.profondeur = profondeur;
+        this.tas = new Tas(this);
         this.pcs = new PropertyChangeSupport(this);
     }
+
+    public Puits(int largeur, int profondeur, int nbElements, int nbLignes) {
+        this.largeur = largeur;
+        this.profondeur = profondeur;
+        if (nbElements > largeur * nbLignes) {
+            throw new IllegalArgumentException("Trop d'éléments pour le nombre de lignes spécifié.");
+        }
+        this.tas = new Tas(this, nbElements, nbLignes);
+        this.pcs = new PropertyChangeSupport(this);
+    }
+
+
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         pcs.addPropertyChangeListener(listener);
     }
@@ -95,5 +109,12 @@ public class Puits {
             }
         }
         return result;
+    }
+
+    public Tas getTas() {
+        return this.tas;
+    }
+    public void setTas(Tas tas) {
+        this.tas = tas;
     }
 }
