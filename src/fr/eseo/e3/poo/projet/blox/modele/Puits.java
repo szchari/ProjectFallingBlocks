@@ -70,9 +70,11 @@ public class Puits {
             pcs.firePropertyChange(MODIFICATION_PIECE_ACTUELLE, this.pieceActuelle, this.pieceSuivante);
             this.pieceActuelle = this.pieceSuivante;
             this.pieceActuelle.setPosition(this.getLargeur() / 2, -4);
+            this.pieceSuivante.setPuits(this);
         }
         pcs.firePropertyChange(MODIFICATION_PIECE_SUIVANTE, this.pieceSuivante, pieceSuivanteLocal);
         this.pieceSuivante = pieceSuivanteLocal;
+        this.pieceSuivante.setPuits(this);
     }
     public void setProfondeur(int profondeur) {
         if (profondeur < 15 || profondeur > PROFONDEUR_PAR_DEFAUT) {

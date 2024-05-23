@@ -59,32 +59,116 @@ public abstract class Tetromino implements Piece {
         }
     }
 
-    /*@Override
-    public void deplacerDe(int deltaX, int deltaY) {
-        try {
-            // Vérifier si le déplacement est valide
-            verifDeplacement(deltaX, deltaY);
+    @Override
+    public void deplacerDe(int deltaX, int deltaY) throws BloxException {
+        // vérifier si le déplacement est valide
+        verifDeplacement(deltaX, deltaY);
 
-            for (Element element : elements) {
-                int nouvelleAbscisse = element.getCoordonnees().getAbscisse() + deltaX;
-                int nouvelleOrdonnee = element.getCoordonnees().getOrdonnee() + deltaY;
-
-                if (nouvelleAbscisse < 0 || nouvelleAbscisse >= puits.getLargeur() || nouvelleOrdonnee >= puits.getProfondeur()) {
+        // vérifier les nouvelles coordonnées des éléments après déplacement
+        for (Element element : elements) {
+            int nouvelleAbscisse = element.getCoordonnees().getAbscisse() + deltaX;
+            int nouvelleOrdonnee = element.getCoordonnees().getOrdonnee() + deltaY;
+            if (getPuits() != null) {
+                // vérifier si la nouvelle position sort du puits
+                if (nouvelleAbscisse < 0 || nouvelleAbscisse >= puits.getLargeur()) {
                     throw new BloxException("Déplacement invalide : sortie du puits détectée.", BloxException.BLOX_SORTIE_PUITS);
                 }
-                if (puits.getTas().elementExists(nouvelleAbscisse, nouvelleOrdonnee)) {
+
+                // vérifier si la nouvelle position entre en collision avec un élément du tas
+                if (puits.getTas().elementExists(nouvelleAbscisse, nouvelleOrdonnee) || nouvelleOrdonnee >= puits.getProfondeur()) {
                     throw new BloxException("Déplacement invalide : collision détectée.", BloxException.BLOX_COLLISION);
                 }
-
-                element.deplacerDe(deltaX, deltaY);
             }
-        } catch (BloxException e) {
-            // Gérer l'exception BloxException ici
-            // Afficher un message d'erreur ou effectuer d'autres actions nécessaires
-            System.err.println("Erreur BloxException : " + e.getMessage());
         }
-    }*/
+        // Si toutes les vérifications passent, déplacer les éléments
+        for (Element element : elements) {
+          element.deplacerDe(deltaX, deltaY);
+        }
+    }
 
+    @Override
+    public void tourner(boolean sensHoraire) throws BloxException {
+        // Obtenez la coordonnée de référence de la pièce
+        Coordonnees coordRef = getElements()[0].getCoordonnees();
+
+        // Étape 1: Sauvegarder la position actuelle de l'élément de référence
+        int ancienneAbscisse = coordRef.getAbscisse();
+        int ancienneOrdonnee = coordRef.getOrdonnee();
+
+        // Liste pour stocker les nouvelles coordonnées après la rotation
+        List<Coordonnees> nouvellesCoordonnees = new ArrayList<>();
+        // Liste pour sauvegarder les anciennes coordonnées
+        List<Coordonnees> anciennesCoordonnees = new ArrayList<>();
+
+        try {
+            // Étape 2: Translater les éléments de la pièce pour placer l'élément de référence à l'origine (0, 0)
+            for (Element element : getElements()) {
+                Coordonnees anciennesCoord = element.getCoordonnees();
+                anciennesCoordonnees.add(anciennesCoord);
+
+                int nouvelleAbscisse = anciennesCoord.getAbscisse() - ancienneAbscisse;
+                int nouvelleOrdonnee = anciennesCoord.getOrdonnee() - ancienneOrdonnee;
+                element.setCoordonnees(new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee));
+            }
+            System.out.println("Breakpoint 1");
+
+            // Étape 3: Calculer les nouvelles coordonnées après la rotation
+            for (Element element : getElements()) {
+                int ancienneAbscisseElement = element.getCoordonnees().getAbscisse();
+                int ancienneOrdonneeElement = element.getCoordonnees().getOrdonnee();
+
+                // Appliquer la rotation
+                int nouvelleAbscisse = sensHoraire ? -ancienneOrdonneeElement : ancienneOrdonneeElement;
+                int nouvelleOrdonnee = sensHoraire ? ancienneAbscisseElement : -ancienneAbscisseElement;
+
+                nouvellesCoordonnees.add(new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee));
+            }
+            System.out.println("Breakpoint 2");
+
+            // Vérifier les nouvelles coordonnées pour les collisions et les sorties du puits
+            for (Coordonnees coord : nouvellesCoordonnees) {
+                int nouvelleAbscisse = coord.getAbscisse() + ancienneAbscisse;
+                int nouvelleOrdonnee = coord.getOrdonnee() + ancienneOrdonnee;
+
+                if (getPuits() != null) {
+                    // Vérifier si la nouvelle position sort du puits
+                    if (nouvelleAbscisse < 0 || nouvelleAbscisse >= puits.getLargeur()) {
+                        throw new BloxException("Rotation invalide : sortie du puits détectée.", BloxException.BLOX_SORTIE_PUITS);
+                    }
+
+                    // Vérifier si la nouvelle position entre en collision avec un élément du tas
+                    if (puits.getTas().elementExists(nouvelleAbscisse, nouvelleOrdonnee) || nouvelleOrdonnee >= puits.getProfondeur()) {
+                        throw new BloxException("Rotation invalide : collision détectée.", BloxException.BLOX_COLLISION);
+                    }
+                }
+            }
+            System.out.println("Breakpoint 3");
+
+            // Si toutes les vérifications passent, appliquer les nouvelles coordonnées
+            int i = 0;
+            for (Element element : getElements()) {
+                Coordonnees nouvelleCoord = nouvellesCoordonnees.get(i);
+                int nouvelleAbscisse = nouvelleCoord.getAbscisse() + ancienneAbscisse;
+                int nouvelleOrdonnee = nouvelleCoord.getOrdonnee() + ancienneOrdonnee;
+                element.setCoordonnees(new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee));
+                i++;
+            }
+
+            System.out.println("Breakpoint 4 fin");
+        } catch (BloxException e) {
+            // En cas d'exception, restaurer les anciennes coordonnées
+            int i = 0;
+            for (Element element : getElements()) {
+                Coordonnees anciennesCoord = anciennesCoordonnees.get(i);
+                element.setCoordonnees(anciennesCoord);
+                i++;
+            }
+            throw e; // Rethrow the exception after handling it
+        }
+    }
+
+
+    /*
     @Override
     public void deplacerDe(int deltaX, int deltaY) {
         if (Math.abs(deltaX) > 1 || deltaY < 0 || deltaY > 1) {
@@ -96,8 +180,8 @@ public abstract class Tetromino implements Piece {
         for(Element element : this.elements) {
             element.deplacerDe(deltaX, deltaY);
         }
-    }
-
+    }*/
+    /*
     @Override
     public void tourner(boolean sensHoraire) {
 
@@ -137,5 +221,5 @@ public abstract class Tetromino implements Piece {
             int nouvelleOrdonnee = element.getCoordonnees().getOrdonnee() + ancienneOrdonnee;
             element.setCoordonnees(new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee));
         }
-    }
+    }*/
 }

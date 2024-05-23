@@ -1,5 +1,6 @@
 package fr.eseo.e3.poo.projet.blox.controleur;
 
+import fr.eseo.e3.poo.projet.blox.modele.BloxException;
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
 import fr.eseo.e3.poo.projet.blox.modele.pieces.UsineDePiece;
 import fr.eseo.e3.poo.projet.blox.modele.pieces.tetrominos.Tetromino;
@@ -25,7 +26,11 @@ public class PieceRotationTest {
             puits.setPieceSuivante(tetromino2);
 
             for (int i = 0; i < 8; i++) {
-                puits.getPieceActuelle().deplacerDe(0, 1);
+                try {
+                    puits.getPieceActuelle().deplacerDe(50, 1);
+                } catch (BloxException e) {
+                    System.err.println("Erreur de déplacement : " + e.getMessage());
+                }
             }
 
             frame.add(vuePuits);

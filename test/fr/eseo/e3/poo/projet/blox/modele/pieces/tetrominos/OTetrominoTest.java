@@ -3,9 +3,11 @@ package fr.eseo.e3.poo.projet.blox.modele.pieces.tetrominos;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import fr.eseo.e3.poo.projet.blox.modele.BloxException;
 import fr.eseo.e3.poo.projet.blox.modele.Element;
 import fr.eseo.e3.poo.projet.blox.modele.Coordonnees;
 import fr.eseo.e3.poo.projet.blox.modele.Couleur;
+import fr.eseo.e3.poo.projet.blox.modele.BloxException;
 
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +45,11 @@ public class OTetrominoTest {
     @Test
     public void testDeplacerDeValidMovement() {
         OTetromino oTetromino = new OTetromino(new Coordonnees(0, 0), Couleur.ROUGE);
-        oTetromino.deplacerDe(0, 1);
+        try {
+            oTetromino.deplacerDe(0, 1);
+        } catch (BloxException e) {
+            System.err.println("Erreur de déplacement : " + e.getMessage());
+        }
         Element[] elements = oTetromino.getElements();
         assertEquals(new Coordonnees(0, 1), elements[0].getCoordonnees());
         assertEquals(new Coordonnees(1, 1), elements[1].getCoordonnees());
@@ -55,7 +61,11 @@ public class OTetrominoTest {
     public void testDeplacerDeInvalidMovement() {
         OTetromino oTetromino = new OTetromino(new Coordonnees(0, 0), Couleur.ROUGE);
         assertThrows(IllegalArgumentException.class, () -> {
-            oTetromino.deplacerDe(2, 1);
+            try {
+                oTetromino.deplacerDe(2, 1);
+            } catch (BloxException e) {
+                System.err.println("Erreur de déplacement : " + e.getMessage());
+            }
         });
     }
 }

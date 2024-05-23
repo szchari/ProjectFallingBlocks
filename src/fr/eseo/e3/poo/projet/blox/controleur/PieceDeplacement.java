@@ -1,6 +1,8 @@
 package fr.eseo.e3.poo.projet.blox.controleur;
 
+import fr.eseo.e3.poo.projet.blox.modele.BloxException;
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
+import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
 import fr.eseo.e3.poo.projet.blox.vue.VuePuits;
 
 import java.awt.event.MouseEvent;
@@ -21,23 +23,25 @@ public class PieceDeplacement
 
     @Override
     public void mouseMoved(MouseEvent event) {
+        Piece pieceActuelle = puits.getPieceActuelle();
         if (vuePuits.getPuits().getPieceActuelle() != null) {
             int tailleCellule = vuePuits.getTaille();
             int xSouris = event.getX();
             int colonneSouris = xSouris / tailleCellule;
 
-            if (this.debutDeplacement) {
-                this.debutDeplacement = false;
-            } else if (this.derniereColonne != colonneSouris) {
-                try {
-                    int dX = colonneSouris > derniereColonne ? 1 : -1;
-                    puits.getPieceActuelle().deplacerDe(dX, 0);
-                } catch (IllegalArgumentException ignored) {
-                    // ignorer les déplacements invalides
+            if (pieceActuelle != null) {
+                if (this.debutDeplacement) {
+                    this.debutDeplacement = false;
+                } else if (this.derniereColonne != colonneSouris) {
+                    try {
+                        int dX = colonneSouris > derniereColonne ? 1 : -1;
+                        puits.getPieceActuelle().deplacerDe(dX, 0);
+                    } catch (BloxException e) {
+                        System.err.println("Erreur de déplacement : " + e.getMessage());
+                    }
                 }
+                this.derniereColonne = colonneSouris;
             }
-
-            this.derniereColonne = colonneSouris;
             this.vuePuits.repaint();
         }
     }
@@ -52,7 +56,11 @@ public class PieceDeplacement
         if (vuePuits.getPuits().getPieceActuelle() != null) {
             int notches = event.getWheelRotation();
             if (notches > 0) {
-                puits.getPieceActuelle().deplacerDe(0, 1);
+                try {
+                    puits.getPieceActuelle().deplacerDe(0, 1);
+                } catch (BloxException e) {
+                    System.err.println("Erreur de rotation : " + e.getMessage());
+                }
                 vuePuits.repaint();
             }
         }

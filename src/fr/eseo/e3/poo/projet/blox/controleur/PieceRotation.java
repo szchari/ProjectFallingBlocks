@@ -1,5 +1,6 @@
 package fr.eseo.e3.poo.projet.blox.controleur;
 
+import fr.eseo.e3.poo.projet.blox.modele.BloxException;
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
 import fr.eseo.e3.poo.projet.blox.vue.VuePuits;
 
@@ -22,13 +23,21 @@ public class PieceRotation
         if (vuePuits.getPuits().getPieceActuelle() != null) {
             try {
                 if (SwingUtilities.isRightMouseButton(event)) {
-                    puits.getPieceActuelle().tourner(true);
+                    try {
+                        puits.getPieceActuelle().tourner(true);
+                    } catch (BloxException e) {
+                        System.err.println("Erreur de rotation : " + e.getMessage());
+                    }
                 }
                 else if (SwingUtilities.isLeftMouseButton(event)) {
-                    puits.getPieceActuelle().tourner(false);
+                    try {
+                        puits.getPieceActuelle().tourner(false);
+                    } catch (BloxException e) {
+                        System.err.println("Erreur de rotation : " + e.getMessage());
+                    }
                 }
-            } catch (IllegalArgumentException ignored) {
-                // ignored
+            } catch (IllegalArgumentException e) {
+                // ok
             }
             this.vuePuits.repaint();
         }
