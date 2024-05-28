@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GraviteTest {
-
     private Puits puits;
     private VuePuits vuePuits;
     private Gravite gravite;
@@ -23,11 +22,7 @@ public class GraviteTest {
 
     @Test
     public void testActionPerformed() {
-        // Vérifier que l'appel à actionPerformed appelle les méthodes gravite et repaint
         gravite.actionPerformed(null);
-        // Malheureusement, sans Mockito, il est difficile de vérifier directement
-        // les appels à gravite() et repaint(). Nous devrons nous fier à l'absence
-        // d'exceptions et au bon comportement visuel.
         assertTrue(true, "L'appel à actionPerformed a été exécuté sans erreur.");
     }
 

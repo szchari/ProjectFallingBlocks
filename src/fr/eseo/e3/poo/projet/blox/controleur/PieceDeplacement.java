@@ -48,7 +48,7 @@ public class PieceDeplacement
 
     @Override
     public void mouseEntered(MouseEvent event) {
-        this.derniereColonne = -1; // Réinitialiser la dernière colonne
+        this.derniereColonne = -1; // réinitialiser la dernière colonne
     }
 
     @Override

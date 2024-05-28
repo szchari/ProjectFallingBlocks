@@ -32,7 +32,6 @@ public class VuePuitsAffichageTest {
             UsineDePiece.setMode(UsineDePiece.ALEATOIRE_COMPLET);
             Tetromino tetromino = UsineDePiece.genererTetromino();
             Tetromino tetromino2 = UsineDePiece.genererTetromino();
-            //VuePiece vuePiece = new VuePiece(tetromino, VuePuits.TAILLE_PAR_DEFAUT);
             puits.setPieceSuivante(tetromino);
             puits.setPieceSuivante(tetromino2);
 
@@ -56,7 +55,6 @@ public class VuePuitsAffichageTest {
             UsineDePiece.setMode(UsineDePiece.CYCLIC);
             Tetromino tetromino = UsineDePiece.genererTetromino();
             Tetromino tetromino2 = UsineDePiece.genererTetromino();
-            //VuePiece vuePiece = new VuePiece(tetromino, VuePuits.TAILLE_PAR_DEFAUT);
             puits.setPieceSuivante(tetromino);
             puits.setPieceSuivante(tetromino2);
 
@@ -83,7 +81,6 @@ public class VuePuitsAffichageTest {
             UsineDePiece.setMode(UsineDePiece.ALEATOIRE_PIECE);
             Tetromino tetromino = UsineDePiece.genererTetromino();
             Tetromino tetromino2 = UsineDePiece.genererTetromino();
-            //VuePiece vuePiece = new VuePiece(tetromino, VuePuits.TAILLE_PAR_DEFAUT);
             puits.setPieceSuivante(tetromino);
             puits.setPieceSuivante(tetromino2);
 

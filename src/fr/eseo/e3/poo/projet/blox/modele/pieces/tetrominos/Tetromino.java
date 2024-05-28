@@ -51,18 +51,27 @@ public abstract class Tetromino implements Piece {
         return result.toString();
     }
 
+    @Override // j'ai dû faire des fonctions séparés à cause de la compléxité cycolmatique..
+    public void deplacerDe(int deltaX, int deltaY) throws BloxException {
+        // vérifier si le déplacement est valide
+        verifDeplacement(deltaX, deltaY);
+
+        // vérifier les nouvelles coordonnées des éléments après déplacement
+        verifNewcoord(deltaX, deltaY);
+
+        // Si toutes les vérifications passent, déplacer les éléments
+        for (Element element : elements) {
+          element.deplacerDe(deltaX, deltaY);
+        }
+    }
+
     private void verifDeplacement(int deltaX2, int deltaY2) {
         if (Math.abs(deltaX2) > 1 || deltaY2 < 0 || deltaY2 > 1) {
             throw new IllegalArgumentException("Déplacement invalide : deltaX doit être -1, 0 ou 1 et deltaY doit être 1.");
         }
     }
 
-    @Override
-    public void deplacerDe(int deltaX, int deltaY) throws BloxException {
-        // vérifier si le déplacement est valide
-        verifDeplacement(deltaX, deltaY);
-
-        // vérifier les nouvelles coordonnées des éléments après déplacement
+    private void verifNewcoord(int deltaX, int deltaY) throws BloxException {
         for (Element element : elements) {
             int nouvelleAbscisse = element.getCoordonnees().getAbscisse() + deltaX;
             int nouvelleOrdonnee = element.getCoordonnees().getOrdonnee() + deltaY;
@@ -78,71 +87,30 @@ public abstract class Tetromino implements Piece {
                 }
             }
         }
-        // Si toutes les vérifications passent, déplacer les éléments
-        for (Element element : elements) {
-          element.deplacerDe(deltaX, deltaY);
-        }
     }
 
     @Override
     public void tourner(boolean sensHoraire) throws BloxException {
-        // Obtenez la coordonnée de référence de la pièce
         Coordonnees coordRef = getElements()[0].getCoordonnees();
 
-        // Étape 1: Sauvegarder la position actuelle de l'élément de référence
+        // Étape 1: On sauvegarde la position initiale de la pièce qui veut être tourner
         int ancienneAbscisse = coordRef.getAbscisse();
         int ancienneOrdonnee = coordRef.getOrdonnee();
 
-        // Liste pour stocker les nouvelles coordonnées après la rotation
         List<Coordonnees> nouvellesCoordonnees = new ArrayList<>();
-        // Liste pour sauvegarder les anciennes coordonnées
         List<Coordonnees> anciennesCoordonnees = new ArrayList<>();
 
         try {
-            // Étape 2: Translater les éléments de la pièce pour placer l'élément de référence à l'origine (0, 0)
-            for (Element element : getElements()) {
-                Coordonnees anciennesCoord = element.getCoordonnees();
-                anciennesCoordonnees.add(anciennesCoord);
+            // Étape 2: Translater les éléments de la pièce pour placer l'élément de référence à l'origine 0,0
+            anciennesCoordonnees = anciennesCoord(ancienneAbscisse, ancienneOrdonnee);
 
-                int nouvelleAbscisse = anciennesCoord.getAbscisse() - ancienneAbscisse;
-                int nouvelleOrdonnee = anciennesCoord.getOrdonnee() - ancienneOrdonnee;
-                element.setCoordonnees(new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee));
-            }
-            System.out.println("Breakpoint 1");
-
-            // Étape 3: Calculer les nouvelles coordonnées après la rotation
-            for (Element element : getElements()) {
-                int ancienneAbscisseElement = element.getCoordonnees().getAbscisse();
-                int ancienneOrdonneeElement = element.getCoordonnees().getOrdonnee();
-
-                // Appliquer la rotation
-                int nouvelleAbscisse = sensHoraire ? -ancienneOrdonneeElement : ancienneOrdonneeElement;
-                int nouvelleOrdonnee = sensHoraire ? ancienneAbscisseElement : -ancienneAbscisseElement;
-
-                nouvellesCoordonnees.add(new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee));
-            }
-            System.out.println("Breakpoint 2");
+            // Étape 3: Calculer les futures nouvelles coordonnées après la rotation
+            nouvellesCoordonnees = nouvellesCoord(anciennesCoordonnees, sensHoraire);
 
             // Vérifier les nouvelles coordonnées pour les collisions et les sorties du puits
-            for (Coordonnees coord : nouvellesCoordonnees) {
-                int nouvelleAbscisse = coord.getAbscisse() + ancienneAbscisse;
-                int nouvelleOrdonnee = coord.getOrdonnee() + ancienneOrdonnee;
+            checklesCollisions(nouvellesCoordonnees, ancienneAbscisse, ancienneOrdonnee);
 
-                if (getPuits() != null) {
-                    // Vérifier si la nouvelle position sort du puits
-                    if (nouvelleAbscisse < 0 || nouvelleAbscisse >= puits.getLargeur()) {
-                        throw new BloxException("Rotation invalide : sortie du puits détectée.", BloxException.BLOX_SORTIE_PUITS);
-                    }
-
-                    // Vérifier si la nouvelle position entre en collision avec un élément du tas
-                    if (puits.getTas().elementExists(nouvelleAbscisse, nouvelleOrdonnee) || nouvelleOrdonnee >= puits.getProfondeur()) {
-                        throw new BloxException("Rotation invalide : collision détectée.", BloxException.BLOX_COLLISION);
-                    }
-                }
-            }
-            System.out.println("Breakpoint 3");
-
-            // Si toutes les vérifications passent, appliquer les nouvelles coordonnées
+            // si toutes les vérifications passent on applique les nouvelles coordonnées
             int i = 0;
             for (Element element : getElements()) {
                 Coordonnees nouvelleCoord = nouvellesCoordonnees.get(i);
@@ -151,17 +119,66 @@ public abstract class Tetromino implements Piece {
                 element.setCoordonnees(new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee));
                 i++;
             }
-
             System.out.println("Breakpoint 4 fin");
         } catch (BloxException e) {
-            // En cas d'exception, restaurer les anciennes coordonnées
+            // si jamais l'exception proc, on replace la pièce et ses éléments à leurs états initiaux
             int i = 0;
             for (Element element : getElements()) {
                 Coordonnees anciennesCoord = anciennesCoordonnees.get(i);
                 element.setCoordonnees(anciennesCoord);
                 i++;
             }
-            throw e; // Rethrow the exception after handling it
+            throw e; // rethrow l'expression
         }
+    }
+
+    private List<Coordonnees> anciennesCoord(int ancienneAbscisse, int ancienneOrdonnee) {
+        // Liste pour sauvegarder les anciennes coordonnées
+        List<Coordonnees> anciennesCoordonnees = new ArrayList<>();
+        for (Element element : getElements()) {
+            Coordonnees ancienneCoord = element.getCoordonnees();
+            anciennesCoordonnees.add(ancienneCoord);
+
+            int nouvelleAbscisse = ancienneCoord.getAbscisse() - ancienneAbscisse;
+            int nouvelleOrdonnee = ancienneCoord.getOrdonnee() - ancienneOrdonnee;
+            element.setCoordonnees(new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee));
+        }
+        System.out.println("Breakpoint 1");
+        return anciennesCoordonnees;
+    }
+
+    private List<Coordonnees> nouvellesCoord(List<Coordonnees> anciennesCoordonnees, boolean sensHoraire) {
+        // Liste pour stocker les nouvelles coordonnées après la rotation
+        List<Coordonnees> nouvellesCoordonnees = new ArrayList<>();
+        for (Element element : getElements()) {
+            int ancienneAbscisseElement = element.getCoordonnees().getAbscisse();
+            int ancienneOrdonneeElement = element.getCoordonnees().getOrdonnee();
+
+            // Appliquer la rotation
+            int nouvelleAbscisse = sensHoraire ? -ancienneOrdonneeElement : ancienneOrdonneeElement;
+            int nouvelleOrdonnee = sensHoraire ? ancienneAbscisseElement : -ancienneAbscisseElement;
+
+            nouvellesCoordonnees.add(new Coordonnees(nouvelleAbscisse, nouvelleOrdonnee));
+        }
+        System.out.println("Breakpoint 2");
+        return nouvellesCoordonnees;
+    }
+
+    private void checklesCollisions(List<Coordonnees> nouvellesCoordonnees, int ancienneAbscisse, int ancienneOrdonnee) throws BloxException {
+        for (Coordonnees coord : nouvellesCoordonnees) {
+            int nouvelleAbscisse = coord.getAbscisse() + ancienneAbscisse;
+            int nouvelleOrdonnee = coord.getOrdonnee() + ancienneOrdonnee;
+
+            if (getPuits() != null) {
+                if (nouvelleAbscisse < 0 || nouvelleAbscisse >= puits.getLargeur()) {
+                    throw new BloxException("Rotation invalide : sortie du puits détectée.", BloxException.BLOX_SORTIE_PUITS);
+                }
+
+                if (puits.getTas().elementExists(nouvelleAbscisse, nouvelleOrdonnee) || nouvelleOrdonnee >= puits.getProfondeur()) {
+                    throw new BloxException("Rotation invalide : collision détectée.", BloxException.BLOX_COLLISION);
+                }
+            }
+        }
+        System.out.println("Breakpoint 3");
     }
 }

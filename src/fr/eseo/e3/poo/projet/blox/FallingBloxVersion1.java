@@ -1,3 +1,13 @@
+/*
+    ---------------------------------------------------------
+    Project Falling Blocks de Zacharia Vandomme
+    ---------------------------------------------------------
+    Aidé par moment par : Clément Raffray
+    Entraide par moment avec : Hippolyte Jospin, Théo Chupin
+    ---------------------------------------------------------
+    Utilisation par moment de : ChatGPT, Forum java, java 11
+    ---------------------------------------------------------
+*/
 package fr.eseo.e3.poo.projet.blox;
 
 import fr.eseo.e3.poo.projet.blox.controleur.Gravite;
@@ -57,7 +67,5 @@ public class FallingBloxVersion1 {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
-        // Créer le contrôleur de gravité et démarrer la chute de la pièce
     }
 }

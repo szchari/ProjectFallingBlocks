@@ -13,7 +13,7 @@ public class OTetromino
 
     @Override
     public void tourner(boolean sensHoraire) {
-        // les OTetrominos ne peuvent pas être tournés
+        // les OTetrominos ne peuvent pas être tourné
     }
 
     protected void setElements(Coordonnees coordonnees, Couleur couleur) {

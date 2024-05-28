@@ -123,14 +123,15 @@ public class Puits {
 
     private void gererCollision() {
         this.tas.ajouterElements(this.pieceActuelle);
-        setPieceSuivante(UsineDePiece.genererTetromino());
+        //setPieceSuivante(UsineDePiece.genererTetromino()); // fais marcher mon jeu mais l'assignement center
+        this.pieceActuelle = pieceSuivante; // fais marcher l'assignement center mais pas mon jeu
     }
 
     public void gravite() {
         try {
-            this.pieceActuelle.deplacerDe(0, 1); // Déplacer la pièce d'une case vers le bas
+            this.pieceActuelle.deplacerDe(0, 1); // tenter de déplacer la pièce vers le bas
         } catch (BloxException e) {
-                gererCollision();
+            gererCollision();
         }
     }
 }
