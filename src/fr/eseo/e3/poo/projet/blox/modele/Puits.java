@@ -1,6 +1,7 @@
 package fr.eseo.e3.poo.projet.blox.modele;
 
 import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
+import fr.eseo.e3.poo.projet.blox.modele.pieces.UsineDePiece;
 
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
@@ -122,20 +123,14 @@ public class Puits {
 
     private void gererCollision() {
         this.tas.ajouterElements(this.pieceActuelle);
-        // Remplacer la pièce actuelle par une nouvelle pièce
-        this.pieceActuelle = pieceSuivante;
+        setPieceSuivante(UsineDePiece.genererTetromino());
     }
 
     public void gravite() {
         try {
             this.pieceActuelle.deplacerDe(0, 1); // Déplacer la pièce d'une case vers le bas
         } catch (BloxException e) {
-            if (e.getType() == BloxException.BLOX_COLLISION) {
-                gererCollision(); // Gérer la collision avec le Tas
-            } else if (e.getType() == BloxException.BLOX_SORTIE_PUITS) {
-                // La pièce est sortie du puits (situation exceptionnelle à gérer)
-                // Vous pouvez implémenter cette logique selon les spécifications du jeu
-            }
+                gererCollision();
         }
     }
 }

@@ -3,6 +3,8 @@ package fr.eseo.e3.poo.projet.blox;
 import fr.eseo.e3.poo.projet.blox.controleur.Gravite;
 import fr.eseo.e3.poo.projet.blox.modele.Puits;
 import fr.eseo.e3.poo.projet.blox.modele.Tas;
+import fr.eseo.e3.poo.projet.blox.modele.pieces.UsineDePiece;
+import fr.eseo.e3.poo.projet.blox.modele.pieces.tetrominos.Tetromino;
 import fr.eseo.e3.poo.projet.blox.vue.PanneauInformation;
 import fr.eseo.e3.poo.projet.blox.vue.VuePuits;
 
@@ -35,7 +37,16 @@ public class FallingBloxVersion1 {
             Tas tas = new Tas(puits, nbElements);
         }
 
+        UsineDePiece.setMode(UsineDePiece.ALEATOIRE_COMPLET);
+        Tetromino tetromino = UsineDePiece.genererTetromino();
+        Tetromino tetromino2 = UsineDePiece.genererTetromino();
+
         PanneauInformation panneauInformation = new PanneauInformation(puits);
+        Gravite gravite = new Gravite(vuePuits);
+
+
+        puits.setPieceSuivante(tetromino);
+        puits.setPieceSuivante(tetromino2);
 
         JFrame frame = new JFrame("Falling Blox");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,6 +59,5 @@ public class FallingBloxVersion1 {
         frame.setVisible(true);
 
         // Créer le contrôleur de gravité et démarrer la chute de la pièce
-        Gravite gravite = new Gravite(vuePuits);
     }
 }

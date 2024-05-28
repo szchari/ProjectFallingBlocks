@@ -1,8 +1,5 @@
 package fr.eseo.e3.poo.projet.blox.modele;
 
-import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
-import fr.eseo.e3.poo.projet.blox.modele.pieces.tetrominos.Tetromino;
-
 import java.util.Objects;
 
 public class Element {
