@@ -32,17 +32,16 @@ public class FallingBloxVersion1 {
 
         if (args.length >= 1) {
             nbElements = Integer.parseInt(args[0]);
-            // Vérifier si le nombre d'éléments est négatif ou supérieur à 0
             if (nbElements < 0) {
                 System.err.println("Le nombre d'éléments ne peut pas être négatif.");
-                return; // Arrêter l'exécution
+                return; // stop
             }
         }
 
         Puits puits = new Puits();
         VuePuits vuePuits = new VuePuits(puits, taille);
 
-        // Si un seul argument est passé, initialiser le Tas avec le nombre d'éléments spécifié
+        // 1 seul arg
         if (args.length == 1) {
             Tas tas = new Tas(puits, nbElements);
         }

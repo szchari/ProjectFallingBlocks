@@ -39,7 +39,7 @@ public class VuePuitsAffichageTest {
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
-            // Vérification de la taille préférée
+
             Assertions.assertEquals(vuePuits.getPreferredSize(), frame.getContentPane().getSize());
         });
     }
@@ -63,7 +63,7 @@ public class VuePuitsAffichageTest {
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setVisible(true);
-            // Vérification de la taille préférée
+
             Assertions.assertEquals(vuePuits.getPreferredSize(), frame.getContentPane().getSize());
         });
     }

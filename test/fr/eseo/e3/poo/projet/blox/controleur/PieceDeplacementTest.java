@@ -6,7 +6,6 @@ import fr.eseo.e3.poo.projet.blox.modele.pieces.UsineDePiece;
 import fr.eseo.e3.poo.projet.blox.modele.pieces.tetrominos.Tetromino;
 import fr.eseo.e3.poo.projet.blox.vue.VuePuits;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 import javax.swing.SwingUtilities;
 import javax.swing.JFrame;
@@ -38,7 +37,6 @@ public class PieceDeplacementTest {
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setVisible(true);
-            // Vérification de la taille préférée
             Assertions.assertEquals(vuePuits.getPreferredSize(), frame.getContentPane().getSize());
         });
     }

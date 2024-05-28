@@ -51,7 +51,7 @@ public abstract class Tetromino implements Piece {
         return result.toString();
     }
 
-    @Override // j'ai dû faire des fonctions séparés à cause de la compléxité cycolmatique..
+    @Override // j'ai dû faire des méthodes séparés à cause de la compléxité cycolmatique..
     public void deplacerDe(int deltaX, int deltaY) throws BloxException {
         // vérifier si le déplacement est valide
         verifDeplacement(deltaX, deltaY);
@@ -59,7 +59,7 @@ public abstract class Tetromino implements Piece {
         // vérifier les nouvelles coordonnées des éléments après déplacement
         verifNewcoord(deltaX, deltaY);
 
-        // Si toutes les vérifications passent, déplacer les éléments
+        // si toutes les vérifications passent, déplacer les éléments
         for (Element element : elements) {
           element.deplacerDe(deltaX, deltaY);
         }
@@ -89,11 +89,11 @@ public abstract class Tetromino implements Piece {
         }
     }
 
-    @Override
+    @Override // j'ai dû faire des méthodes séparés à cause de la compléxité cycolmatique..
     public void tourner(boolean sensHoraire) throws BloxException {
         Coordonnees coordRef = getElements()[0].getCoordonnees();
 
-        // Étape 1: On sauvegarde la position initiale de la pièce qui veut être tourner
+        // étape 1: On sauvegarde la position initiale de la pièce qui veut être tourner
         int ancienneAbscisse = coordRef.getAbscisse();
         int ancienneOrdonnee = coordRef.getOrdonnee();
 
@@ -101,13 +101,13 @@ public abstract class Tetromino implements Piece {
         List<Coordonnees> anciennesCoordonnees = new ArrayList<>();
 
         try {
-            // Étape 2: Translater les éléments de la pièce pour placer l'élément de référence à l'origine 0,0
+            // étape 2: Translater les éléments de la pièce pour placer l'élément de référence à l'origine 0,0
             anciennesCoordonnees = anciennesCoord(ancienneAbscisse, ancienneOrdonnee);
 
-            // Étape 3: Calculer les futures nouvelles coordonnées après la rotation
+            // étape 3: Calculer les futures nouvelles coordonnées après la rotation
             nouvellesCoordonnees = nouvellesCoord(anciennesCoordonnees, sensHoraire);
 
-            // Vérifier les nouvelles coordonnées pour les collisions et les sorties du puits
+            // vérifier les nouvelles coordonnées pour les collisions et les sorties du puits
             checklesCollisions(nouvellesCoordonnees, ancienneAbscisse, ancienneOrdonnee);
 
             // si toutes les vérifications passent on applique les nouvelles coordonnées
@@ -121,7 +121,7 @@ public abstract class Tetromino implements Piece {
             }
             System.out.println("Breakpoint 4 fin");
         } catch (BloxException e) {
-            // si jamais l'exception proc, on replace la pièce et ses éléments à leurs états initiaux
+            // si jamais l'exception proc, on replace la pièce (ses éléments) à leurs états initiaux
             int i = 0;
             for (Element element : getElements()) {
                 Coordonnees anciennesCoord = anciennesCoordonnees.get(i);
@@ -133,7 +133,7 @@ public abstract class Tetromino implements Piece {
     }
 
     private List<Coordonnees> anciennesCoord(int ancienneAbscisse, int ancienneOrdonnee) {
-        // Liste pour sauvegarder les anciennes coordonnées
+        // liste pour sauvegarder les anciennes coordonnées
         List<Coordonnees> anciennesCoordonnees = new ArrayList<>();
         for (Element element : getElements()) {
             Coordonnees ancienneCoord = element.getCoordonnees();
@@ -148,13 +148,13 @@ public abstract class Tetromino implements Piece {
     }
 
     private List<Coordonnees> nouvellesCoord(List<Coordonnees> anciennesCoordonnees, boolean sensHoraire) {
-        // Liste pour stocker les nouvelles coordonnées après la rotation
+        // liste pour stocker les nouvelles coordonnées après la rotation
         List<Coordonnees> nouvellesCoordonnees = new ArrayList<>();
         for (Element element : getElements()) {
             int ancienneAbscisseElement = element.getCoordonnees().getAbscisse();
             int ancienneOrdonneeElement = element.getCoordonnees().getOrdonnee();
 
-            // Appliquer la rotation
+            // appliquer la rotation avec l'opérateur ternaire
             int nouvelleAbscisse = sensHoraire ? -ancienneOrdonneeElement : ancienneOrdonneeElement;
             int nouvelleOrdonnee = sensHoraire ? ancienneAbscisseElement : -ancienneAbscisseElement;
 

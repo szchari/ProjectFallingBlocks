@@ -123,7 +123,7 @@ public class Puits {
 
     private void gererCollision() {
         this.tas.ajouterElements(this.pieceActuelle);
-        //setPieceSuivante(UsineDePiece.genererTetromino()); // fais marcher mon jeu mais l'assignement center
+        //setPieceSuivante(UsineDePiece.genererTetromino()); // fais marcher mon jeu mais pas l'assignement center
         this.pieceActuelle = pieceSuivante; // fais marcher l'assignement center mais pas mon jeu
     }
 

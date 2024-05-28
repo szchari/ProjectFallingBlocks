@@ -93,7 +93,6 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
         Graphics2D g2D = (Graphics2D) g.create();
         g2D.setColor(Color.WHITE);
         g2D.fillRect(0, 0, this.puits.getLargeur() * taille, this.puits.getProfondeur() * taille);
-        // this.puits.getLargeur() * taille, this.puits.getProfondeur() * taille sinon ascm beug..
         g2D.setColor(Color.LIGHT_GRAY);
         int carreauSize = taille;
         int largeurPuits = puits.getLargeur();

@@ -35,7 +35,7 @@ public class VuePiece {
         List<Element> elements = Arrays.asList(piece.getElements()); // pour convertir les elements en une liste
 
         if (!elements.isEmpty()) {  // si la liste element n'est pas vide alors
-            Color couleurAWT = elements.get(0).getCouleur().getCouleurPourAffichage();  // on get la couleur du premier element
+            Color couleurAWT = elements.get(0).getCouleur().getCouleurPourAffichage();  // on get la couleur du 1er element
             Color teinteClair = teinte(couleurAWT); // on lui apply la méthode teinte
 
             for (Element element : elements) {

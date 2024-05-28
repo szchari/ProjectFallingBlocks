@@ -23,9 +23,9 @@ public class PanneauInformation extends JPanel implements PropertyChangeListener
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (vuePiece != null) {
-            Graphics2D g2D = (Graphics2D) g.create(); // Créer un objet Graphics2D à partir de Graphics
+            Graphics2D g2D = (Graphics2D) g.create();
             vuePiece.afficherPiece(g2D);
-            g2D.dispose(); // Libérer les ressources de l'objet Graphics2D
+            g2D.dispose();
         }
     }
 
@@ -33,7 +33,7 @@ public class PanneauInformation extends JPanel implements PropertyChangeListener
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals(Puits.MODIFICATION_PIECE_SUIVANTE)) {
             Piece nouvellePiece = (Piece) evt.getNewValue();
-            vuePiece = new VuePiece(nouvellePiece, 10); // Taille de la pièce suivante
+            vuePiece = new VuePiece(nouvellePiece, 10); // taille pièce suivante
             repaint();
         }
     }

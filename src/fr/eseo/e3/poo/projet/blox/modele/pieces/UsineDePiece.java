@@ -14,7 +14,6 @@ public class UsineDePiece {
     public static final int CYCLIC = 1;
     private static int mode = ALEATOIRE_PIECE;
     private static int next = 0;
-
     private UsineDePiece() {}
 
     public static void setMode(int mode) {
@@ -34,11 +33,10 @@ public class UsineDePiece {
                 tetromino = genererTetrominoAleatoirePiece();
                 break;
             default:
-                // Mode non pris en charge
+                // impossible
         }
         return tetromino;
     }
-
 
     public static Tetromino genererTetrominoCyclique() {
         if (next % 2 == 0) {

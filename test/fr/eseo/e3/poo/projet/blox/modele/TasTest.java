@@ -49,7 +49,6 @@ public class TasTest {
         Random random = new Random(8535937);
         Tas tas = new Tas(puits, 1, 1, random);
 
-        // Vérifiez les éléments générés
         Element element = tas.getElements().get(0);
         assertEquals(new Coordonnees(4, 24), element.getCoordonnees(), "Les coordonnées de l'élément ne sont pas correctes.");
         assertEquals(Couleur.ROUGE, element.getCouleur(), "La couleur de l'élément ne correspond pas.");
@@ -64,7 +63,6 @@ public class TasTest {
         List<Element> elements = tas.getElements();
         assertEquals(5, elements.size(), "Le nombre d'éléments générés n'est pas correct.");
 
-        // Coordonnées et couleurs attendues
         Coordonnees[] expectedCoordonnees = {
                 new Coordonnees(4, 23),
                 new Coordonnees(10, 24),
@@ -95,24 +93,10 @@ public class TasTest {
         Tetromino tetromino2 = UsineDePiece.genererTetromino();
         puits.setPieceSuivante(tetromino);
         puits.setPieceSuivante(tetromino2);
-        tas.ajouterElements(tetromino);
-        // Vérifiez que tous les éléments de la pièce sont correctement ajoutés au tas
-        // Comparez la taille du tas avec le nombre d'éléments de la pièce
-        // Assurez-vous que les éléments sont aux bonnes coordonnées dans le tas
-    }
 
-    @Test
-    public void testAjouterElementsCollision() {
-        Puits puits = new Puits();
-        Tas tas = new Tas(puits, 4);
-        UsineDePiece.setMode(UsineDePiece.ALEATOIRE_PIECE);
-        Tetromino tetromino = UsineDePiece.genererTetromino();
-        Tetromino tetromino2 = UsineDePiece.genererTetromino();
-        puits.setPieceSuivante(tetromino);
-        puits.setPieceSuivante(tetromino2);
         tas.ajouterElements(tetromino);
-        // Vérifiez que les éléments de la pièce sont correctement fusionnés avec le tas
-        // Assurez-vous que les éléments sont aux bonnes coordonnées dans le tas après la fusion
+
+        assertEquals(8, tas.getElements().size(), "Le tas devrait contenir 8 éléments après ajout de la pièce.");
     }
 
     @Test
@@ -124,23 +108,9 @@ public class TasTest {
         Tetromino tetromino2 = UsineDePiece.genererTetromino();
         puits.setPieceSuivante(tetromino);
         puits.setPieceSuivante(tetromino2);
-        tas.ajouterElements(tetromino);
-        // Vérifiez que le tas reste inchangé
-        // Comparez la taille du tas avant et après l'ajout de la pièce vide
-    }
 
-    @Test
-    public void testAjouterElementsPieceHorsLimites() {
-        Puits puits = new Puits();
-        Tas tas = new Tas(puits, 4);
-        UsineDePiece.setMode(UsineDePiece.ALEATOIRE_PIECE);
-        Tetromino tetromino = UsineDePiece.genererTetromino();
-        Tetromino tetromino2 = UsineDePiece.genererTetromino();
-        puits.setPieceSuivante(tetromino);
-        puits.setPieceSuivante(tetromino2);
-        // Assurez-vous que l'exception est correctement levée lors de l'ajout de la pièce
-        /*assertThrows(, () -> {
-            tas.ajouterElements(tetromino);
-        });*/
+        tas.ajouterElements(tetromino);
+
+        assertEquals(8, tas.getElements().size(), "Le tas devrait contenir 8 éléments après ajout de la pièce.");
     }
 }

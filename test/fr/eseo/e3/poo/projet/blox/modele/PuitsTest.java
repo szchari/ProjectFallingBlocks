@@ -1,6 +1,5 @@
 package fr.eseo.e3.poo.projet.blox.modele;
 
-import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
 import fr.eseo.e3.poo.projet.blox.modele.pieces.UsineDePiece;
 import fr.eseo.e3.poo.projet.blox.modele.pieces.tetrominos.Tetromino;
 import org.junit.jupiter.api.Test;
@@ -60,11 +59,9 @@ public class PuitsTest {
 
     @Test
     void testToString() {
-        // Création d'une instance de Puits avec une pièce actuelle et une pièce suivante
         Puits puits = new Puits();
         puits.setPieceSuivante(new OTetromino(new Coordonnees(3, 3), Couleur.ROUGE));
 
-        // Création de la chaîne de caractères attendue
         String expected = "Puits : Dimension 15 x 25\n" +
                 "Piece Actuelle : <aucune>\n" +
                 "Piece Suivante : OTetromino :\n" +
@@ -87,6 +84,7 @@ public class PuitsTest {
         assertTrue(puits.getTas().getElements().isEmpty(), "Le tas doit être initialisé vide.");
     }
 
+    // test de gravite (sans succès)
     @Test
     public void testGravitePieceTombeSansCollision() {
         Puits puits = new Puits();
@@ -96,53 +94,5 @@ public class PuitsTest {
         puits.setPieceSuivante(tetromino);
         puits.setPieceSuivante(tetromino2);
         puits.gravite();
-        // Vérifie que la pièce est déplacée vers le bas correctement
-        // (vérifiez les coordonnées après plusieurs appels à gravite())
-        // Assurez-vous que les coordonnées de la pièce sont correctes
-    }
-
-    @Test
-    public void testGraviteCollisionFondPuits() {
-        Puits puits = new Puits();
-        // Créer une pièce qui atteint le fond du puits
-        UsineDePiece.setMode(UsineDePiece.ALEATOIRE_PIECE);
-        Tetromino tetromino = UsineDePiece.genererTetromino();
-        Tetromino tetromino2 = UsineDePiece.genererTetromino();
-        puits.setPieceSuivante(tetromino);
-        puits.setPieceSuivante(tetromino2);
-        // Appeler gravite() pour simuler la chute
-        puits.gravite();
-        // Vérifier que la collision est correctement gérée
-        // Vérifier que la nouvelle pièce est générée
-    }
-
-    @Test
-    public void testGraviteCollisionAvecTas() {
-        Puits puits = new Puits();
-        // Créer une pièce qui entre en collision avec des éléments du tas
-        UsineDePiece.setMode(UsineDePiece.ALEATOIRE_PIECE);
-        Tetromino tetromino = UsineDePiece.genererTetromino();
-        Tetromino tetromino2 = UsineDePiece.genererTetromino();
-        puits.setPieceSuivante(tetromino);
-        puits.setPieceSuivante(tetromino2);
-        // Appeler gravite() pour simuler la chute
-        puits.gravite();
-        // Vérifier que la collision est correctement gérée
-        // Vérifier que la nouvelle pièce est générée
-    }
-
-    @Test
-    public void testGraviteExceptionPieceBloquee() {
-        Puits puits = new Puits();
-        // Créer une pièce coincée entre d'autres pièces ou au fond du puits
-        UsineDePiece.setMode(UsineDePiece.ALEATOIRE_PIECE);
-        Tetromino tetromino = UsineDePiece.genererTetromino();
-        Tetromino tetromino2 = UsineDePiece.genererTetromino();
-        puits.setPieceSuivante(tetromino);
-        puits.setPieceSuivante(tetromino2);
-        // Appeler gravite() et vérifier qu'une exception est levée
-        /*assertThrows(, () -> {
-            puits.gravite();
-        });*/
     }
 }

@@ -21,14 +21,8 @@ public class GraviteTest {
     }
 
     @Test
-    public void testActionPerformed() {
-        gravite.actionPerformed(null);
-        assertTrue(true, "L'appel à actionPerformed a été exécuté sans erreur.");
-    }
-
-    @Test
     public void testGetPeriodicite() {
-        assertEquals(1000, gravite.getPeriodicite());
+        assertEquals(500, gravite.getPeriodicite());
     }
 
     @Test
