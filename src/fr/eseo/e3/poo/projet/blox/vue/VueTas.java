@@ -21,7 +21,6 @@ public class VueTas {
         return vuePuits;
     }
 
-
     public static Color nuance(Color couleur) {
         int red = couleur.getRed();
         int green = couleur.getGreen();
@@ -36,10 +35,10 @@ public class VueTas {
 
     public void afficher(Graphics2D g2D) {
         int taille = vuePuits.getTaille();
-        List<Element> elements = tas.getElements(); // Récupérer les éléments du tas
+        List<Element> elements = tas.getElements();
 
-        for (Element element : elements) { // Parcourir la liste des éléments
-            if (element != null) { // Vérifier si l'élément existe
+        for (Element element : elements) {
+            if (element != null) {
                 Coordonnees coordonnees = element.getCoordonnees();
                 int abscisse = coordonnees.getAbscisse() * taille;
                 int ordonnee = coordonnees.getOrdonnee() * taille;
@@ -51,5 +50,4 @@ public class VueTas {
             }
         }
     }
-
 }

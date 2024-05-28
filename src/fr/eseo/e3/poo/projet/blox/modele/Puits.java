@@ -119,4 +119,23 @@ public class Puits {
     public void setTas(Tas tas) {
         this.tas = tas;
     }
+
+    private void gererCollision() {
+        this.tas.ajouterElements(this.pieceActuelle);
+        // Remplacer la pièce actuelle par une nouvelle pièce
+        this.pieceActuelle = pieceSuivante;
+    }
+
+    public void gravite() {
+        try {
+            this.pieceActuelle.deplacerDe(0, 1); // Déplacer la pièce d'une case vers le bas
+        } catch (BloxException e) {
+            if (e.getType() == BloxException.BLOX_COLLISION) {
+                gererCollision(); // Gérer la collision avec le Tas
+            } else if (e.getType() == BloxException.BLOX_SORTIE_PUITS) {
+                // La pièce est sortie du puits (situation exceptionnelle à gérer)
+                // Vous pouvez implémenter cette logique selon les spécifications du jeu
+            }
+        }
+    }
 }

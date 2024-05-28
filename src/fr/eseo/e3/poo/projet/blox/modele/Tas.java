@@ -1,5 +1,7 @@
 package fr.eseo.e3.poo.projet.blox.modele;
 
+import fr.eseo.e3.poo.projet.blox.modele.pieces.Piece;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
@@ -36,6 +38,13 @@ public class Tas {
         return elements;
     }
 
+    public void ajouterElements(Piece piece) {
+        for (Element element : piece.getElements()) {
+            Coordonnees coordonnees = element.getCoordonnees();
+            this.elements.add(new Element(coordonnees, element.getCouleur()));
+        }
+    }
+
     public boolean elementExists(int x, int y) {
         for (Element element : elements) {
             if (element.getCoordonnees().getAbscisse() == x && element.getCoordonnees().getOrdonnee() == y) {
@@ -44,6 +53,7 @@ public class Tas {
         }
         return false;
     }
+
     private void construireTas(int nbElements, int nbLignes, Random rand) {
         if (nbElements <= 0 || nbElements > puits.getLargeur() * nbLignes) {
             throw new IllegalArgumentException("Trop d'éléments pour le nombre de lignes spécifié.");
