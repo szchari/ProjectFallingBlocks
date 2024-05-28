@@ -20,6 +20,7 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
     private VuePiece vuePiece;
     private final PieceDeplacement pieceDeplacement;
     private final PieceRotation pieceRotation;
+    private final VueTas vueTas;
 
     public VuePuits(Puits puits) {
         this(puits, TAILLE_PAR_DEFAUT);
@@ -28,6 +29,7 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
     public VuePuits(Puits puits, int taille) {
         setPuits(puits);
         setTaille(taille);
+        this.vueTas = new VueTas(this);
         this.pieceDeplacement = new PieceDeplacement(this);
         this.pieceRotation = new PieceRotation(this);
         this.addMouseMotionListener(pieceDeplacement);
@@ -66,6 +68,10 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
         updatePreferredSize();
     }
 
+    public VueTas getVueTas() {
+        return vueTas;
+    }
+
     private void updatePreferredSize() {
         int largeurPanel = this.puits.getLargeur() * taille;
         int profondeurPanel = this.puits.getProfondeur() * taille;
@@ -86,8 +92,8 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
         super.paintComponent(g);
         Graphics2D g2D = (Graphics2D) g.create();
         g2D.setColor(Color.WHITE);
-        g2D.fillRect(0, 0, getWidth(), getHeight());
-
+        g2D.fillRect(0, 0, this.puits.getLargeur() * taille, this.puits.getProfondeur() * taille);
+        // this.puits.getLargeur() * taille, this.puits.getProfondeur() * taille sinon ascm beug..
         g2D.setColor(Color.LIGHT_GRAY);
         int carreauSize = taille;
         int largeurPuits = puits.getLargeur();
@@ -101,10 +107,13 @@ public class VuePuits extends JPanel implements PropertyChangeListener {
             }
         }
 
+        if(vueTas != null) {
+            vueTas.afficher(g2D);
+        }
+
         if (vuePiece != null) {
             vuePiece.afficherPiece(g2D);
         }
-
         g2D.dispose();
     }
 
